@@ -4,6 +4,9 @@ Application for ordering food. This application allows you to order the delivery
 In addition to pizza, you can also order drinks, desserts and more.
 The combined account will help you to save your orders and information about them.
 
+## Potential users:
+Hungry people who want in a few clicks order some food
+
 ## Requirements:
 - Android 5.0 or later
 - Internet connection
