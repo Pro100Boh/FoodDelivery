@@ -1,6 +1,6 @@
 # Food delivery app
 ## Idea:
-Application for ordering food. This application allows you to order the delivery of pizza.
+This application allows you to order the delivery of pizza.
 In addition to pizza, you can also order drinks, desserts and more.
 The combined account will help you to save your orders and information about them.
 
