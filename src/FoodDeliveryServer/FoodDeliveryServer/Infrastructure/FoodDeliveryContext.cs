@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace FoodDeliveryServer.Infrastructure
 {
-    public class FoodDeliveryEFCoreContext : DbContext
+    public class FoodDeliveryContext : DbContext
     {
         public DbSet<Pizza> Pizzas { get; set; }
 
         public DbSet<Ingradient> Ingradients { get; set; }
 
-        public FoodDeliveryEFCoreContext(DbContextOptions<FoodDeliveryEFCoreContext> options)
+        public FoodDeliveryContext(DbContextOptions<FoodDeliveryContext> options)
             : base(options)
         {
             Database.Migrate();

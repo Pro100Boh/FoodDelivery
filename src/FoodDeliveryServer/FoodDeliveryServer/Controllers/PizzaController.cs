@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FoodDeliveryServer.Entities;
 using FoodDeliveryServer.Infrastructure;
 using FoodDeliveryServer.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,54 +20,74 @@ namespace FoodDeliveryServer.Controllers
     {
         private readonly IMapper mapper;
 
-        private readonly FoodDeliveryEFCoreContext db;
+        private readonly FoodDeliveryContext db;
 
-        public PizzaController(FoodDeliveryEFCoreContext context, IMapper mapper)
+        private readonly IHostingEnvironment hostingEnv;
+
+        public PizzaController(IHostingEnvironment env, IMapper mapper, FoodDeliveryContext dbContext)
         {
+            hostingEnv = env;
             this.mapper = mapper;
-            db = context;
+            db = dbContext;
         }
 
-        // GET api/values
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string sort = null,
+                                            [Range(1, int.MaxValue)]int page = 1,
+                                            [Range(2, 10)]int pageSize = 4)
         {
-            var pizzas = await db.Pizzas.AsNoTracking().
+            IQueryable<Pizza> query = db.Pizzas.
                             Include(g => g.PizzaIngradients).
-                            ThenInclude(gg => gg.Ingradient).
-                            AsNoTracking().
-                            ToListAsync();
+                            ThenInclude(gg => gg.Ingradient);
+
+            // sorting
+            switch (sort)
+            {
+                case null:
+                    break;
+                case "name":
+                    query = query.OrderByDescending(p => p.Name);
+                    break;
+                case "name-desc":
+                    query = query.OrderBy(p => p.Name);
+                    break;
+                case "price":
+                    query = query.OrderBy(p => p.Price);
+                    break;
+                case "price-desc":
+                    query = query.OrderByDescending(p => p.Price);
+                    break;
+                default:
+                    return BadRequest(sort);
+            }
+
+            // pagination
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+
+            var pizzas = await query.ToListAsync();
 
             var pizzasView = mapper.Map<IEnumerable<PizzaViewModel>>(pizzas);
 
             return Ok(pizzasView);
         }
 
-        /*
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [HttpGet("{pizzaId:guid}/image")]
+        public async Task<IActionResult> GetPizzaImage(Guid pizzaId)
         {
-            return "value";
+            var pizza = await db.Pizzas.FindAsync(pizzaId);
+
+            if (pizza == null)
+                return NotFound("Pizza not found");
+
+            string path = $"{hostingEnv.ContentRootPath}/Images/Pizza/{pizza.Image}";
+
+            if (!System.IO.File.Exists(path))
+                return NotFound("Image not found");
+
+            string type = "image/jpeg";
+
+            return await Task.Run(() => PhysicalFile(path, type));
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-        */
     }
 }

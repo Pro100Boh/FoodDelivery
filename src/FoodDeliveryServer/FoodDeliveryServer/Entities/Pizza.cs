@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FoodDeliveryServer.Entities
 {
-    [Table("Games")]
+    [Table("Pizza")]
     public class Pizza
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -16,8 +16,12 @@ namespace FoodDeliveryServer.Entities
         [Required, MaxLength(500)]
         public string Name { get; set; }
 
-        [Required, MaxLength(5000)]
-        public string Description { get; set; }
+        [Required]
+        [Column(TypeName = "money")]
+        public decimal Price { get; set; }
+
+        [MaxLength(200)]
+        public string Image { get; set; }
 
         public ICollection<PizzaIngradients> PizzaIngradients { get; set; }
     }

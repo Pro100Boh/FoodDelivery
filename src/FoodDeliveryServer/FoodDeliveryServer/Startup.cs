@@ -29,7 +29,7 @@ namespace FoodDeliveryServer
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<FoodDeliveryEFCoreContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<FoodDeliveryContext>(options => options.UseSqlServer(connection));
 
             services.AddAutoMapper();
 

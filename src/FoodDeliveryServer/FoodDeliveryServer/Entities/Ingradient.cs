@@ -16,6 +16,9 @@ namespace FoodDeliveryServer.Entities
         [Required, MaxLength(500)]
         public string Name { get; set; }
 
+        [MaxLength(200)]
+        public string Image { get; set; }
+
         public ICollection<PizzaIngradients> PizzaIngradients { get; set; }
     }
 }

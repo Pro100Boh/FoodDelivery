@@ -8,14 +8,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FoodDeliveryServer.Migrations
 {
-    [DbContext(typeof(FoodDeliveryEFCoreContext))]
-    partial class FoodDeliveryEFCoreContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(FoodDeliveryContext))]
+    partial class FoodDeliveryContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
+                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -23,6 +23,9 @@ namespace FoodDeliveryServer.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Image")
+                        .HasMaxLength(200);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -38,17 +41,19 @@ namespace FoodDeliveryServer.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(5000);
+                    b.Property<string>("Image")
+                        .HasMaxLength(200);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(500);
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("money");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Games");
+                    b.ToTable("Pizza");
                 });
 
             modelBuilder.Entity("FoodDeliveryServer.Entities.PizzaIngradients", b =>

@@ -8,28 +8,30 @@ namespace FoodDeliveryServer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Games",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(maxLength: 500, nullable: false),
-                    Description = table.Column<string>(maxLength: 5000, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Games", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Ingradients",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(maxLength: 500, nullable: false)
+                    Name = table.Column<string>(maxLength: 500, nullable: false),
+                    Image = table.Column<string>(maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ingradients", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pizza",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(maxLength: 500, nullable: false),
+                    Price = table.Column<decimal>(type: "money", nullable: false),
+                    Image = table.Column<string>(maxLength: 200, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pizza", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -49,9 +51,9 @@ namespace FoodDeliveryServer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PizzaIngradients_Games_PizzaId",
+                        name: "FK_PizzaIngradients_Pizza_PizzaId",
                         column: x => x.PizzaId,
-                        principalTable: "Games",
+                        principalTable: "Pizza",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -71,7 +73,7 @@ namespace FoodDeliveryServer.Migrations
                 name: "Ingradients");
 
             migrationBuilder.DropTable(
-                name: "Games");
+                name: "Pizza");
         }
     }
 }
