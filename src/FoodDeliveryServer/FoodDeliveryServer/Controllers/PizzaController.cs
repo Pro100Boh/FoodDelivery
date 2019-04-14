@@ -79,14 +79,16 @@ namespace FoodDeliveryServer.Controllers
             if (pizza == null)
                 return NotFound("Pizza not found");
 
-            string path = $"{hostingEnv.ContentRootPath}/Images/Pizza/{pizza.Image}";
+            string imageFileName = pizza.Image;
+
+            string path = $"{hostingEnv.ContentRootPath}/Images/Pizza/{imageFileName}";
 
             if (!System.IO.File.Exists(path))
                 return NotFound("Image not found");
 
-            string type = "image/jpeg";
+            string type = "	image/ief"; // mime type for image file
 
-            return await Task.Run(() => PhysicalFile(path, type));
+            return await Task.Run(() => PhysicalFile(path, type, imageFileName));
         }
 
     }

@@ -36,14 +36,16 @@ namespace FoodDeliveryServer.Controllers
             if (ingradient == null)
                 return NotFound("Ingradient not found");
 
-            string path = $"{hostingEnv.ContentRootPath}/Images/Ingradients/{ingradient.Image}";
+            string imageFileName = ingradient.Image;
+
+            string path = $"{hostingEnv.ContentRootPath}/Images/Ingradients/{imageFileName}";
 
             if (!System.IO.File.Exists(path))
                 return NotFound("Image not found");
 
-            string type = "image/jpeg";
+            string type = "	image/ief"; // mime type for image file
 
-            return await Task.Run(() => PhysicalFile(path, type)); 
+            return await Task.Run(() => PhysicalFile(path, type, imageFileName)); 
         }
     }
 }
