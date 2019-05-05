@@ -1,0 +1,54 @@
+﻿using FoodDeliveryMobileApp.Models;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System.Timers;
+using System.Windows.Input;
+using Xamarin.Forms;
+
+namespace FoodDeliveryMobileApp.ViewModels
+{
+    public class PizzaViewModel
+    {
+        public ObservableCollection<Pizza> PizzasCollection { get; set; }
+
+        public PizzaViewModel()
+        {
+            PizzasCollection = new ObservableCollection<Pizza>();
+
+            //_ = GetPizzasAsync();
+        }
+
+        private const string apiAdress = "http://192.168.31.13:5000/api";
+
+        public async Task LoadPizzasAsync()
+        {
+            var httpClient = new HttpClient();
+
+            string requestUri = apiAdress + "/pizza";
+
+            var response = await httpClient.GetAsync(requestUri);
+
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Cannot connect to server");
+
+            string responseString = await response.Content.ReadAsStringAsync();
+            var pizzas = JsonConvert.DeserializeObject<IEnumerable<Pizza>>(responseString);
+
+            foreach (var pizza in pizzas)
+            {
+                pizza.ImageUri = new Uri(requestUri + $"/{pizza.Id}/image");
+
+                PizzasCollection.Add(pizza);
+            }
+
+        }
+
+
+    }
+}

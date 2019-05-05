@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FoodDeliveryMobileApp.Views.PizzaPage" Appearing="PizzaPageAppearing">
+
+    <ListView ItemsSource="{Binding PizzasCollection}" 
+              CachingStrategy="RetainElement" BackgroundColor="White" RowHeight="350"
+              SeparatorVisibility="None" Visual="Material">
+
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell >
+                    <Frame BorderColor="Gray" CornerRadius="20" Margin="5" Padding="0" Visual="Material">
+                        <StackLayout >
+                            <Image Visual="Material" Aspect="AspectFill" >
+                                <Image.Source>
+                                    <UriImageSource CacheValidity="5" CachingEnabled="True" Uri="{Binding ImageUri}" />
+                                </Image.Source>
+                            </Image>
+                            <Label Text="{Binding Name}" FontAttributes="Bold" Margin="10"/>
+                            <Label Text="{Binding Price}" Margin="10"/>
+                        </StackLayout>
+                    </Frame>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+
+    </ListView>
+</ContentPage>
