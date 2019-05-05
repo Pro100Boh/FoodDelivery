@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace FoodDeliveryMobileApp.Models
@@ -12,8 +13,8 @@ namespace FoodDeliveryMobileApp.Models
 
         public decimal Price { get; set; }
 
-        public Uri ImageUri { get; set; }
+        public Uri PizzaImageUri { get; set; }
 
-        public IEnumerable<Ingradient> Ingradients { get; set; }
+        public ObservableCollection<Ingradient> Ingradients { get; set; }
     }
 }

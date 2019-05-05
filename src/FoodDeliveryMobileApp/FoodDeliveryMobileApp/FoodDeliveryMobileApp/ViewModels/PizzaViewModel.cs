@@ -20,8 +20,6 @@ namespace FoodDeliveryMobileApp.ViewModels
         public PizzaViewModel()
         {
             PizzasCollection = new ObservableCollection<Pizza>();
-
-            //_ = GetPizzasAsync();
         }
 
         private const string apiAdress = "http://192.168.31.13:5000/api";
@@ -42,7 +40,12 @@ namespace FoodDeliveryMobileApp.ViewModels
 
             foreach (var pizza in pizzas)
             {
-                pizza.ImageUri = new Uri(requestUri + $"/{pizza.Id}/image");
+                pizza.PizzaImageUri = new Uri($"{requestUri}/{pizza.Id}/image");
+
+                foreach (var ingradient in pizza.Ingradients)
+                {
+                    ingradient.IngradientImageUri = new Uri($"{apiAdress}/ingradients/{ingradient.Id}/image");
+                }
 
                 PizzasCollection.Add(pizza);
             }

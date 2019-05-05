@@ -5,7 +5,7 @@
 
     <ListView ItemsSource="{Binding PizzasCollection}" 
               CachingStrategy="RetainElement" BackgroundColor="White" RowHeight="350"
-              SeparatorVisibility="None" Visual="Material">
+              SeparatorVisibility="None" Visual="Material" HasUnevenRows="True">
 
         <ListView.ItemTemplate>
             <DataTemplate>
@@ -14,11 +14,42 @@
                         <StackLayout >
                             <Image Visual="Material" Aspect="AspectFill" >
                                 <Image.Source>
-                                    <UriImageSource CacheValidity="5" CachingEnabled="True" Uri="{Binding ImageUri}" />
+                                    <UriImageSource CacheValidity="5" CachingEnabled="True" Uri="{Binding PizzaImageUri}" />
                                 </Image.Source>
                             </Image>
-                            <Label Text="{Binding Name}" FontAttributes="Bold" Margin="10"/>
-                            <Label Text="{Binding Price}" Margin="10"/>
+                            <Label Text="Ingradients:" FontSize="Medium" Margin="15,5,5,5" TextColor="Black"/>
+                            
+                            <CollectionView ItemsSource="{Binding Ingradients}" Visual="Material" BackgroundColor="White" 
+                                            ItemsLayout="{x:Static ListItemsLayout.HorizontalList}" HeightRequest="110"
+                                            Margin="5" >
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="70" />
+                                                <RowDefinition Height="35" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="87" />
+                                            </Grid.ColumnDefinitions>
+                                            <Frame Grid.Row="0" HeightRequest="80" WidthRequest="80" BorderColor="Gray" CornerRadius="5" 
+                                                   Padding="3" Margin="7,0" Visual="Material">
+                                                <Image Aspect="AspectFit" >
+                                                    <Image.Source>
+                                                        <UriImageSource CacheValidity="5" CachingEnabled="True" Uri="{Binding IngradientImageUri}" />
+                                                    </Image.Source>
+                                                </Image>
+                                            </Frame>
+                                            <Label Grid.Row="1" Text="{Binding Name}" HorizontalTextAlignment="Center" TextColor="Black"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                            <Label Text="{Binding Name}" FontSize="Large" FontAttributes="Bold" Margin="3"
+                                   HorizontalTextAlignment="Center" TextColor="Black"/>
+                            <Label Text="{Binding Price}" FontSize="Medium" Margin="5"
+                                   HorizontalTextAlignment="Center" TextColor="Black"/>
                         </StackLayout>
                     </Frame>
                 </ViewCell>

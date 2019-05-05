@@ -10,7 +10,6 @@ namespace FoodDeliveryMobileApp
         public App()
         {
             InitializeComponent();
-
             MainPage = new NavigationPage(new PizzaPage());
         }
 
