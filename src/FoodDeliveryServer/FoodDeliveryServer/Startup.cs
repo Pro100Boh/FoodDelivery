@@ -29,7 +29,7 @@ namespace FoodDeliveryServer
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<FoodDeliveryContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<FoodDeliveryContext>(options => options.UseSqlServer(connection), ServiceLifetime.Singleton);
 
             services.AddAutoMapper();
 
@@ -39,6 +39,13 @@ namespace FoodDeliveryServer
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors(b => b
+                .AllowAnyHeader()
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowCredentials()
+            );
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -32,37 +32,11 @@ namespace FoodDeliveryServer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(string sort = null,
-                                            [Range(1, int.MaxValue)]int page = 1,
-                                            [Range(2, 10)]int pageSize = 4)
+        public async Task<IActionResult> Get()
         {
-            IQueryable<Pizza> query = db.Pizzas.
-                            Include(g => g.PizzaIngradients).
-                            ThenInclude(gg => gg.Ingradient);
-
-            // sorting
-            switch (sort)
-            {
-                case null:
-                    break;
-                case "name":
-                    query = query.OrderByDescending(p => p.Name);
-                    break;
-                case "name-desc":
-                    query = query.OrderBy(p => p.Name);
-                    break;
-                case "price":
-                    query = query.OrderBy(p => p.Price);
-                    break;
-                case "price-desc":
-                    query = query.OrderByDescending(p => p.Price);
-                    break;
-                default:
-                    return BadRequest(sort);
-            }
-
-            // pagination
-            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            var query = db.Pizzas
+                            .Include(g => g.PizzaIngradients)
+                            .ThenInclude(gg => gg.Ingradient);
 
             var pizzas = await query.ToListAsync();
 
@@ -74,6 +48,8 @@ namespace FoodDeliveryServer.Controllers
         [HttpGet("{pizzaId:guid}/image")]
         public async Task<IActionResult> GetPizzaImage(Guid pizzaId)
         {
+            // If an entity is being tracked by the context, then it is returned 
+            // immediately without making a request to the database
             var pizza = await db.Pizzas.FindAsync(pizzaId);
 
             if (pizza == null)
@@ -86,7 +62,7 @@ namespace FoodDeliveryServer.Controllers
             if (!System.IO.File.Exists(path))
                 return NotFound("Image not found");
 
-            string type = "	image/ief"; // mime type for image file
+            string type = "image/ief"; // mime type for image file
 
             return await Task.Run(() => PhysicalFile(path, type, imageFileName));
         }

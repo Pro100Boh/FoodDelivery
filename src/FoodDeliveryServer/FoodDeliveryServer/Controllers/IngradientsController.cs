@@ -15,22 +15,21 @@ namespace FoodDeliveryServer.Controllers
     [ApiController]
     public class IngradientsController : ControllerBase
     {
-        private readonly IMapper mapper;
-
         private readonly FoodDeliveryContext db;
 
         private readonly IHostingEnvironment hostingEnv;
 
-        public IngradientsController(IHostingEnvironment env, IMapper mapper, FoodDeliveryContext dbContext)
+        public IngradientsController(IHostingEnvironment env, FoodDeliveryContext dbContext)
         {
             hostingEnv = env;
-            this.mapper = mapper;
             db = dbContext;
         }
 
         [HttpGet("{ingradientId:guid}/image")]
         public async Task<IActionResult> GetIngradientImage(Guid ingradientId)
         {
+            // If an entity is being tracked by the context, then it is returned 
+            // immediately without making a request to the database
             var ingradient = await db.Ingradients.FindAsync(ingradientId);
 
             if (ingradient == null)
@@ -43,7 +42,7 @@ namespace FoodDeliveryServer.Controllers
             if (!System.IO.File.Exists(path))
                 return NotFound("Image not found");
 
-            string type = "	image/ief"; // mime type for image file
+            string type = "image/ief"; // mime type for image file
 
             return await Task.Run(() => PhysicalFile(path, type, imageFileName)); 
         }
