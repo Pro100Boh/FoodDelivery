@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using FoodDeliveryServer.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodDeliveryServer.Controllers
 {
@@ -19,6 +17,8 @@ namespace FoodDeliveryServer.Controllers
 
         private readonly IHostingEnvironment hostingEnv;
 
+        private const string imageMimeType = "image/ief"; 
+
         public IngradientsController(IHostingEnvironment env, FoodDeliveryContext dbContext)
         {
             hostingEnv = env;
@@ -28,23 +28,25 @@ namespace FoodDeliveryServer.Controllers
         [HttpGet("{ingradientId:guid}/image")]
         public async Task<IActionResult> GetIngradientImage(Guid ingradientId)
         {
-            // If an entity is being tracked by the context, then it is returned 
-            // immediately without making a request to the database
-            var ingradient = await db.Ingradients.FindAsync(ingradientId);
+            if (!CachedData.Images.ContainsKey(ingradientId))
+            {
+                string imageFileName = await db.Ingradients
+                                                .Where(i => i.Id == ingradientId)
+                                                .Select(i => i.Image)
+                                                .FirstOrDefaultAsync();
 
-            if (ingradient == null)
-                return NotFound("Ingradient not found");
+                if (string.IsNullOrWhiteSpace(imageFileName))
+                    return NotFound("Ingradient not found");
 
-            string imageFileName = ingradient.Image;
+                string path = $"{hostingEnv.ContentRootPath}/Images/Ingradients/{imageFileName}";
 
-            string path = $"{hostingEnv.ContentRootPath}/Images/Ingradients/{imageFileName}";
+                if (!System.IO.File.Exists(path))
+                    return NotFound("Image not found");
 
-            if (!System.IO.File.Exists(path))
-                return NotFound("Image not found");
+                CachedData.Images[ingradientId] = System.IO.File.ReadAllBytes(path);
+            }
 
-            string type = "image/ief"; // mime type for image file
-
-            return await Task.Run(() => PhysicalFile(path, type, imageFileName)); 
+            return File(CachedData.Images[ingradientId], imageMimeType);
         }
     }
 }

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using FoodDeliveryServer.Entities;
 using FoodDeliveryServer.Infrastructure;
 using FoodDeliveryServer.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -24,6 +21,8 @@ namespace FoodDeliveryServer.Controllers
 
         private readonly IHostingEnvironment hostingEnv;
 
+        private const string imageMimeType = "image/ief";
+
         public PizzaController(IHostingEnvironment env, IMapper mapper, FoodDeliveryContext dbContext)
         {
             hostingEnv = env;
@@ -34,37 +33,42 @@ namespace FoodDeliveryServer.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var query = db.Pizzas
-                            .Include(g => g.PizzaIngradients)
-                            .ThenInclude(gg => gg.Ingradient);
+            if (CachedData.Pizzas == null)
+            {
+                var query = db.Pizzas
+                                .Include(g => g.PizzaIngradients)
+                                .ThenInclude(gg => gg.Ingradient);
 
-            var pizzas = await query.ToListAsync();
+                var pizzas = await query.ToListAsync();
 
-            var pizzasView = mapper.Map<IEnumerable<PizzaViewModel>>(pizzas);
+                CachedData.Pizzas = mapper.Map<List<PizzaViewModel>>(pizzas);
+            }
 
-            return Ok(pizzasView);
+            return Ok(CachedData.Pizzas);
         }
 
         [HttpGet("{pizzaId:guid}/image")]
         public async Task<IActionResult> GetPizzaImage(Guid pizzaId)
         {
-            // If an entity is being tracked by the context, then it is returned 
-            // immediately without making a request to the database
-            var pizza = await db.Pizzas.FindAsync(pizzaId);
+            if (!CachedData.Images.ContainsKey(pizzaId))
+            {
+                string imageFileName = await db.Pizzas
+                                                .Where(p => p.Id == pizzaId)
+                                                .Select(p => p.Image)
+                                                .FirstOrDefaultAsync();
 
-            if (pizza == null)
-                return NotFound("Pizza not found");
+                if (string.IsNullOrWhiteSpace(imageFileName))
+                    return NotFound("Pizza not found");
 
-            string imageFileName = pizza.Image;
+                string path = $"{hostingEnv.ContentRootPath}/Images/Pizza/{imageFileName}";
 
-            string path = $"{hostingEnv.ContentRootPath}/Images/Pizza/{imageFileName}";
+                if (!System.IO.File.Exists(path))
+                    return NotFound("Image not found");
 
-            if (!System.IO.File.Exists(path))
-                return NotFound("Image not found");
+                CachedData.Images[pizzaId] = System.IO.File.ReadAllBytes(path);
+            }
 
-            string type = "image/ief"; // mime type for image file
-
-            return await Task.Run(() => PhysicalFile(path, type, imageFileName));
+            return File(CachedData.Images[pizzaId], imageMimeType);
         }
 
     }

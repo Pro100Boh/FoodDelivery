@@ -18,7 +18,7 @@
                                 </Image.Source>
                             </Image>
                             <Label Text="Ingradients:" FontSize="Medium" Margin="15,5,5,5" TextColor="Black"/>
-                            
+                             
                             <CollectionView ItemsSource="{Binding Ingradients}" Visual="Material" BackgroundColor="White" 
                                             ItemsLayout="{x:Static ListItemsLayout.HorizontalList}" HeightRequest="110"
                                             Margin="5" >
