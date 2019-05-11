@@ -15,22 +15,25 @@ namespace FoodDeliveryMobileApp.ViewModels
 {
     public class PizzaViewModel
     {
+        private const string apiAdress = "http://192.168.31.13:5000/api";
+
+        private readonly HttpClient httpClient;
+
         public ObservableCollection<Pizza> PizzasCollection { get; set; }
 
         public PizzaViewModel()
         {
             PizzasCollection = new ObservableCollection<Pizza>();
-        }
 
-        private const string apiAdress = "http://192.168.31.13:5000/api";
+            httpClient = new HttpClient()
+            {
+                Timeout = TimeSpan.FromSeconds(15)
+            };
+        }
 
         public async Task LoadPizzasAsync()
         {
-            var httpClient = new HttpClient();
-
-            string requestUri = apiAdress + "/pizza";
-
-            var response = await httpClient.GetAsync(requestUri);
+            var response = await httpClient.GetAsync(GetPizzasUri());
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
                 throw new Exception("Cannot connect to server");
@@ -40,11 +43,11 @@ namespace FoodDeliveryMobileApp.ViewModels
 
             foreach (var pizza in pizzas)
             {
-                pizza.PizzaImageUri = new Uri($"{requestUri}/{pizza.Id}/image");
+                pizza.PizzaImageUri = GetPizzaImageUri(pizza.Id);
 
                 foreach (var ingradient in pizza.Ingradients)
                 {
-                    ingradient.IngradientImageUri = new Uri($"{apiAdress}/ingradients/{ingradient.Id}/image");
+                    ingradient.IngradientImageUri = GetIngradientImageUri(ingradient.Id);
                 }
 
                 PizzasCollection.Add(pizza);
@@ -52,6 +55,11 @@ namespace FoodDeliveryMobileApp.ViewModels
 
         }
 
+        private static Uri GetPizzasUri() => new Uri($"{apiAdress}/pizza");
+
+        private static Uri GetPizzaImageUri(Guid pizzaId) => new Uri($"{apiAdress}/pizza/{pizzaId}/image");
+
+        private static Uri GetIngradientImageUri(Guid ingradientId) => new Uri($"{apiAdress}/ingradients/{ingradientId}/image");
 
     }
 }

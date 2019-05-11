@@ -7,11 +7,18 @@ namespace FoodDeliveryMobileApp.Models
 {
     public class Pizza
     {
+
         public Guid Id { get; set; }
 
         public string Name { get; set; }
 
-        public decimal Price { get; set; }
+        private decimal price;
+
+        public decimal Price
+        {
+            get => price;
+            set => price = Math.Round(value, 2);
+        }
 
         public Uri PizzaImageUri { get; set; }
 

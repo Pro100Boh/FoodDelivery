@@ -30,10 +30,10 @@
                                                 <RowDefinition Height="35" />
                                             </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="87" />
+                                                <ColumnDefinition Width="86" />
                                             </Grid.ColumnDefinitions>
                                             <Frame Grid.Row="0" HeightRequest="80" WidthRequest="80" BorderColor="Gray" CornerRadius="5" 
-                                                   Padding="3" Margin="7,0" Visual="Material">
+                                                   Padding="3" Margin="6,0" Visual="Material">
                                                 <Image Aspect="AspectFit" >
                                                     <Image.Source>
                                                         <UriImageSource CacheValidity="5" CachingEnabled="True" Uri="{Binding IngradientImageUri}" />
