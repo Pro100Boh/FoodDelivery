@@ -10,7 +10,8 @@ namespace FoodDeliveryMobileApp
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new PizzaPage());
+            MainPage = new TabbedProductsPage();
+                //new NavigationPage(new PizzaPage());
         }
 
         protected override void OnStart()

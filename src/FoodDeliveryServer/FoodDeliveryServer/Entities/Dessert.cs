@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FoodDeliveryServer.Entities
 {
-    [Table("Ingradients")]
-    public class Ingradient
+    [Table("Desserts")]
+    public class Dessert
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
@@ -14,9 +13,11 @@ namespace FoodDeliveryServer.Entities
         [Required, MaxLength(500)]
         public string Name { get; set; }
 
+        [Required]
+        [Column(TypeName = "money")]
+        public decimal Price { get; set; }
+
         [MaxLength(200)]
         public string Image { get; set; }
-
-        public ICollection<PizzaIngradients> PizzaIngradients { get; set; }
     }
 }

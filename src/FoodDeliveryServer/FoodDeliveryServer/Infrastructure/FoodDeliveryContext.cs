@@ -13,6 +13,10 @@ namespace FoodDeliveryServer.Infrastructure
 
         public DbSet<Ingradient> Ingradients { get; set; }
 
+        public DbSet<Drink> Drinks { get; set; }
+
+        public DbSet<Dessert> Desserts { get; set; }
+
         public FoodDeliveryContext(DbContextOptions<FoodDeliveryContext> options)
             : base(options)
         {

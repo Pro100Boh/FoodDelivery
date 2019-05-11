@@ -50,6 +50,8 @@
                                    HorizontalTextAlignment="Center" TextColor="Black"/>
                             <Label Text="{Binding Price}" FontSize="Medium" Margin="5"
                                    HorizontalTextAlignment="Center" TextColor="Black"/>
+                            <Button BackgroundColor="Red" TextColor="White" Text="Add to bucket"
+                                    FontSize="Medium" FontAttributes="Bold"  Margin="5" />
                         </StackLayout>
                     </Frame>
                 </ViewCell>
