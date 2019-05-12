@@ -1,4 +1,5 @@
 ﻿using FoodDeliveryMobileApp.Models;
+using FoodDeliveryMobileApp.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,51 +16,33 @@ namespace FoodDeliveryMobileApp.ViewModels
 {
     public class PizzaViewModel
     {
-        private const string apiAdress = "http://192.168.31.13:5000/api";
-
-        private readonly HttpClient httpClient;
+        private IPizzaService _pizzaService;
 
         public ObservableCollection<Pizza> PizzasCollection { get; set; }
 
-        public PizzaViewModel()
+        public PizzaViewModel(IPizzaService pizzaService)
         {
             PizzasCollection = new ObservableCollection<Pizza>();
-
-            httpClient = new HttpClient()
-            {
-                Timeout = TimeSpan.FromSeconds(15)
-            };
+            _pizzaService = pizzaService;
         }
 
         public async Task LoadPizzasAsync()
         {
-            var response = await httpClient.GetAsync(GetPizzasUri());
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Cannot connect to server");
-
-            string responseString = await response.Content.ReadAsStringAsync();
-            var pizzas = JsonConvert.DeserializeObject<IEnumerable<Pizza>>(responseString);
+            var pizzas = await _pizzaService.GetPizzasAsync();
 
             foreach (var pizza in pizzas)
             {
-                pizza.PizzaImageUri = GetPizzaImageUri(pizza.Id);
+                pizza.PizzaImageUri = _pizzaService.GetPizzaImageUri(pizza.Id);
 
                 foreach (var ingradient in pizza.Ingradients)
                 {
-                    ingradient.IngradientImageUri = GetIngradientImageUri(ingradient.Id);
+                    ingradient.IngradientImageUri = _pizzaService.GetIngradientImageUri(ingradient.Id);
                 }
 
                 PizzasCollection.Add(pizza);
             }
 
         }
-
-        private static Uri GetPizzasUri() => new Uri($"{apiAdress}/pizza");
-
-        private static Uri GetPizzaImageUri(Guid pizzaId) => new Uri($"{apiAdress}/pizza/{pizzaId}/image");
-
-        private static Uri GetIngradientImageUri(Guid ingradientId) => new Uri($"{apiAdress}/ingradients/{ingradientId}/image");
 
     }
 }

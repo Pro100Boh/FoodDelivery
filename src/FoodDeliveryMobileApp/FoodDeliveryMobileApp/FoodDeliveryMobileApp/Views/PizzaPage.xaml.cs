@@ -1,4 +1,5 @@
-﻿using FoodDeliveryMobileApp.ViewModels;
+﻿using FoodDeliveryMobileApp.Services;
+using FoodDeliveryMobileApp.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -20,7 +21,7 @@ namespace FoodDeliveryMobileApp.Views
 
             InitializeComponent();
 
-            pizzaViewModel = new PizzaViewModel();
+            pizzaViewModel = new PizzaViewModel(new PizzaService());
 
             // Connecting context of this page to the our View Model class
             BindingContext = pizzaViewModel;
