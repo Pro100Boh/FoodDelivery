@@ -333,3 +333,7 @@ ASALocalRun/
 *.jpg
 *.jpeg
 *.png
+
+# configs
+
+android-config.json

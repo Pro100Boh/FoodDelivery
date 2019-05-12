@@ -7,8 +7,10 @@ namespace FoodDeliveryMobileApp
 {
     public partial class App : Application
     {
-        public App()
+        public App(string serverApiAdress)
         {
+            Properties["serverApiAdress"] = serverApiAdress;
+
             InitializeComponent();
             MainPage = new TabbedProductsPage();
             //new NavigationPage(new PizzaPage());

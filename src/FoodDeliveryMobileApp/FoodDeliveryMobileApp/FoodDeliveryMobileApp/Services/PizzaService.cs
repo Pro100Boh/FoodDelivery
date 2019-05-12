@@ -8,7 +8,7 @@ namespace FoodDeliveryMobileApp.Services
 {
     public class PizzaService : BaseHttpService, IPizzaService
     {
-        private Uri PizzasUri => new Uri($"{apiAdress}/pizza");
+        private Uri PizzasUri => new Uri($"{serverApiAdress}/pizza");
 
         public async Task<IEnumerable<Pizza>> GetPizzasAsync()
         {
@@ -24,8 +24,8 @@ namespace FoodDeliveryMobileApp.Services
             return pizzas;
         }
 
-        public Uri GetPizzaImageUri(Guid pizzaId) => new Uri($"{apiAdress}/pizza/{pizzaId}/image");
+        public Uri GetPizzaImageUri(Guid pizzaId) => new Uri($"{serverApiAdress}/pizza/{pizzaId}/image");
 
-        public Uri GetIngradientImageUri(Guid ingradientId) => new Uri($"{apiAdress}/ingradients/{ingradientId}/image");
+        public Uri GetIngradientImageUri(Guid ingradientId) => new Uri($"{serverApiAdress}/ingradients/{ingradientId}/image");
     }
 }

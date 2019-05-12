@@ -8,7 +8,7 @@ namespace FoodDeliveryMobileApp.Services
 {
     public class DrinksService : BaseHttpService, IDrinksService
     {
-        private Uri DrinksUri => new Uri($"{apiAdress}/drinks");
+        private Uri DrinksUri => new Uri($"{serverApiAdress}/drinks");
 
         public async Task<IEnumerable<Drink>> GetDrinksAsync()
         {
@@ -24,7 +24,7 @@ namespace FoodDeliveryMobileApp.Services
             return drinks;
         }
 
-        public Uri GetDrinkImageUri(Guid drinkId) => new Uri($"{apiAdress}/drinks/{drinkId}/image");
+        public Uri GetDrinkImageUri(Guid drinkId) => new Uri($"{serverApiAdress}/drinks/{drinkId}/image");
 
     }
 }

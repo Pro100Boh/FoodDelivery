@@ -7,6 +7,8 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Xamarin.Forms;
+using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace FoodDeliveryMobileApp.Droid
 {
@@ -22,8 +24,23 @@ namespace FoodDeliveryMobileApp.Droid
             Forms.SetFlags("CollectionView_Experimental");
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App());
+
+            string serverApiAdress;
+
+            using (var asset = Assets.Open("android-config.json"))
+            using (var streamReader = new StreamReader(asset))
+            {
+                var jObject = JObject.Parse(streamReader.ReadToEnd());
+
+                serverApiAdress = jObject["serverApiAdress"].ToString();
+            }
+
+            var app = new App(serverApiAdress);
+
+            LoadApplication(app);
         }
+
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
