@@ -2,10 +2,16 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:FoodDeliveryMobileApp.Views"
-             x:Class="FoodDeliveryMobileApp.Views.TabbedProductsPage">
+             x:Class="FoodDeliveryMobileApp.Views.TabbedProductsPage"
+            BackgroundColor="White" BarBackgroundColor="White" >
 
-    <local:PizzaPage Title="Pizza">
+    <local:PizzaPage Title="Pizza" >
     </local:PizzaPage>
-    <ContentPage Title="Drinks" />
-  <ContentPage Title="Desserts " />
+    
+    <local:DrinksPage Title="Drinks" >
+    </local:DrinksPage>
+
+    <local:DessertsPage Title="Desserts" >
+    </local:DessertsPage>
+    
 </TabbedPage>

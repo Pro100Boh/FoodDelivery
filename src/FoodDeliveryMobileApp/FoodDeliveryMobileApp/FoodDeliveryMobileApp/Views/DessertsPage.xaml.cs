@@ -8,28 +8,28 @@ using Xamarin.Forms.Xaml;
 namespace FoodDeliveryMobileApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PizzaPage : ContentPage
+    public partial class DessertsPage : ContentPage
     {
-        private readonly PizzaViewModel _pizzaViewModel;
+        private readonly DessertsViewModel _dessertsViewModel;
 
         private bool _loaded = false;
 
-        public PizzaPage()
+        public DessertsPage()
         {
 
             InitializeComponent();
 
-            _pizzaViewModel = new PizzaViewModel(new PizzaService());
+            _dessertsViewModel = new DessertsViewModel(new DessertsService());
 
             // Connecting context of this page to the our View Model class
-            BindingContext = _pizzaViewModel;
+            BindingContext = _dessertsViewModel;
         }
 
-        private async void PizzaPageAppearing(object sender, EventArgs e)
+        private async void DessertsPageAppearing(object sender, EventArgs e)
         {
             if (!_loaded)
             {
-                await _pizzaViewModel.LoadPizzasAsync();
+                await _dessertsViewModel.LoadDessertsAsync();
                 _loaded = true;
             }
         }

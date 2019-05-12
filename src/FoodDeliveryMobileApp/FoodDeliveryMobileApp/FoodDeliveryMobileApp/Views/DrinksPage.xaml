@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FoodDeliveryMobileApp.Views.DrinksPage" Appearing="DrinksPageAppearing">
+    
+    <ListView ItemsSource="{Binding DrinksCollection}" 
+              CachingStrategy="RetainElement" BackgroundColor="White"
+              SeparatorVisibility="None" Visual="Material" HasUnevenRows="True">
+
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell >
+                    <Frame BorderColor="Gray" CornerRadius="20" Margin="5" Padding="0" Visual="Material" VerticalOptions="StartAndExpand">
+                        <StackLayout VerticalOptions="StartAndExpand">
+                            <Image Visual="Material" Aspect="AspectFit" VerticalOptions="StartAndExpand" Margin="0,3,0,0" >
+                                <Image.Source>
+                                    <UriImageSource CacheValidity="5" CachingEnabled="True" Uri="{Binding DrinkImageUri}" />
+                                </Image.Source>
+                            </Image>
+
+                            <Label Text="{Binding Name}" FontSize="Large" FontAttributes="Bold" Margin="3,3,3,0"
+                                   HorizontalTextAlignment="Center" TextColor="Black"/>
+
+                            <Grid Margin="5,0,5,5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Column="0" Text="{Binding Price, StringFormat=' {0} $'}" FontSize="Large" Margin="5"
+                                   HorizontalTextAlignment="End" VerticalTextAlignment="Center" TextColor="Black"/>
+
+                                <Button Grid.Column="1" BackgroundColor="#D41A1D" TextColor="White" Text="Add to bucket"
+                                    FontSize="Medium" FontAttributes="Bold"  Margin="5" CornerRadius="10" HorizontalOptions="EndAndExpand"/>
+                            </Grid>
+
+                        </StackLayout>
+                    </Frame>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+
+    </ListView>
+</ContentPage>

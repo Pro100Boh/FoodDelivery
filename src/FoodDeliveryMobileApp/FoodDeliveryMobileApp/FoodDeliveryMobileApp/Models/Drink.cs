@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Text;
 
 namespace FoodDeliveryMobileApp.Models
 {
-    public class Pizza
+    public class Drink
     {
         public Guid Id { get; set; }
 
@@ -19,8 +18,6 @@ namespace FoodDeliveryMobileApp.Models
             set => price = Math.Round(value, 2);
         }
 
-        public Uri PizzaImageUri { get; set; }
-
-        public ObservableCollection<Ingradient> Ingradients { get; set; }
+        public Uri DrinkImageUri { get; set; }
     }
 }
