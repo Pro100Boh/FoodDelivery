@@ -1,13 +1,10 @@
 ﻿using FoodDeliveryServer.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FoodDeliveryServer.Infrastructure
 {
-    public class FoodDeliveryContext : DbContext
+    public class FoodDeliveryContext : IdentityDbContext<User>
     {
         public DbSet<Pizza> Pizzas { get; set; }
 
@@ -17,6 +14,8 @@ namespace FoodDeliveryServer.Infrastructure
 
         public DbSet<Dessert> Desserts { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+
         public FoodDeliveryContext(DbContextOptions<FoodDeliveryContext> options)
             : base(options)
         {
@@ -25,6 +24,8 @@ namespace FoodDeliveryServer.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             // Configure many-to-many
             modelBuilder.Entity<PizzaIngradients>().HasKey(gg => new { gg.PizzaId, gg.IngradientId });
 

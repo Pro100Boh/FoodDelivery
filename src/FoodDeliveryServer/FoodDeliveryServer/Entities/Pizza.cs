@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace FoodDeliveryServer.Entities
 {
     [Table("Pizza")]
-    public class Pizza
+    public class Pizza : IProduct
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }

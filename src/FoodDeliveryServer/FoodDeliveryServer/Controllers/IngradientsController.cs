@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FoodDeliveryServer.Infrastructure;
@@ -13,16 +12,16 @@ namespace FoodDeliveryServer.Controllers
     [ApiController]
     public class IngradientsController : ControllerBase
     {
-        private readonly FoodDeliveryContext db;
+        private readonly FoodDeliveryContext _dbContext;
 
-        private readonly IHostingEnvironment hostingEnv;
+        private readonly IHostingEnvironment _hostingEnv;
 
         private const string imageMimeType = "image/ief"; 
 
         public IngradientsController(IHostingEnvironment env, FoodDeliveryContext dbContext)
         {
-            hostingEnv = env;
-            db = dbContext;
+            _hostingEnv = env;
+            _dbContext = dbContext;
         }
 
         [HttpGet("{ingradientId:guid}/image")]
@@ -30,7 +29,7 @@ namespace FoodDeliveryServer.Controllers
         {
             if (!CachedData.Images.ContainsKey(ingradientId))
             {
-                string imageFileName = await db.Ingradients
+                string imageFileName = await _dbContext.Ingradients
                                                 .Where(i => i.Id == ingradientId)
                                                 .Select(i => i.Image)
                                                 .FirstOrDefaultAsync();
@@ -38,7 +37,7 @@ namespace FoodDeliveryServer.Controllers
                 if (string.IsNullOrWhiteSpace(imageFileName))
                     return NotFound("Ingradient not found");
 
-                string path = $"{hostingEnv.ContentRootPath}/Images/Ingradients/{imageFileName}";
+                string path = $"{_hostingEnv.ContentRootPath}/Images/Ingradients/{imageFileName}";
 
                 if (!System.IO.File.Exists(path))
                     return NotFound("Image not found");

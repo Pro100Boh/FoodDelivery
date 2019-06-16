@@ -17,6 +17,9 @@ namespace FoodDeliveryServer.Infrastructure
 
             CreateMap<Drink, DrinkViewModel>();
 
+            CreateMap<Order, OrderViewModel>();
+
+            CreateMap<OrderedProduct, OrderedProductViewModel>();
         }
     }
 }

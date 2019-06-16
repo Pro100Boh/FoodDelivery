@@ -6,7 +6,6 @@ using AutoMapper;
 using FoodDeliveryServer.Infrastructure;
 using FoodDeliveryServer.Models;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,19 +15,19 @@ namespace FoodDeliveryServer.Controllers
     [ApiController]
     public class DessertsController : ControllerBase
     {
-        private readonly IMapper mapper;
+        private readonly IMapper _mapper;
 
-        private readonly FoodDeliveryContext db;
+        private readonly FoodDeliveryContext _dbContext;
 
-        private readonly IHostingEnvironment hostingEnv;
+        private readonly IHostingEnvironment _hostingEnv;
 
         private const string imageMimeType = "image/ief";
 
         public DessertsController(IHostingEnvironment env, IMapper mapper, FoodDeliveryContext dbContext)
         {
-            hostingEnv = env;
-            this.mapper = mapper;
-            db = dbContext;
+            _hostingEnv = env;
+            this._mapper = mapper;
+            _dbContext = dbContext;
         }
 
         [HttpGet]
@@ -36,9 +35,9 @@ namespace FoodDeliveryServer.Controllers
         {
             if (CachedData.Drinks == null)
             {
-                var drinks = await db.Desserts.ToListAsync();
+                var drinks = await _dbContext.Desserts.ToListAsync();
 
-                CachedData.Desserts = mapper.Map<List<DessertViewModel>>(drinks);
+                CachedData.Desserts = _mapper.Map<List<DessertViewModel>>(drinks);
             }
 
             return Ok(CachedData.Desserts);
@@ -49,7 +48,7 @@ namespace FoodDeliveryServer.Controllers
         {
             if (!CachedData.Images.ContainsKey(dessertId))
             {
-                string imageFileName = await db.Desserts
+                string imageFileName = await _dbContext.Desserts
                                                 .Where(d => d.Id == dessertId)
                                                 .Select(d => d.Image)
                                                 .FirstOrDefaultAsync();
@@ -57,7 +56,7 @@ namespace FoodDeliveryServer.Controllers
                 if (string.IsNullOrWhiteSpace(imageFileName))
                     return NotFound("Dessert not found");
 
-                string path = $"{hostingEnv.ContentRootPath}/Images/Desserts/{imageFileName}";
+                string path = $"{_hostingEnv.ContentRootPath}/Images/Desserts/{imageFileName}";
 
                 if (!System.IO.File.Exists(path))
                     return NotFound("Image not found");

@@ -15,19 +15,19 @@ namespace FoodDeliveryServer.Controllers
     [ApiController]
     public class PizzaController : ControllerBase
     {
-        private readonly IMapper mapper;
+        private readonly IMapper _mapper;
 
-        private readonly FoodDeliveryContext db;
+        private readonly FoodDeliveryContext _dbContext;
 
-        private readonly IHostingEnvironment hostingEnv;
+        private readonly IHostingEnvironment _hostingEnv;
 
         private const string imageMimeType = "image/ief";
 
         public PizzaController(IHostingEnvironment env, IMapper mapper, FoodDeliveryContext dbContext)
         {
-            hostingEnv = env;
-            this.mapper = mapper;
-            db = dbContext;
+            _hostingEnv = env;
+            this._mapper = mapper;
+            _dbContext = dbContext;
         }
 
         [HttpGet]
@@ -35,13 +35,13 @@ namespace FoodDeliveryServer.Controllers
         {
             if (CachedData.Pizzas == null)
             {
-                var query = db.Pizzas
+                var query = _dbContext.Pizzas
                                 .Include(g => g.PizzaIngradients)
                                 .ThenInclude(gg => gg.Ingradient);
 
                 var pizzas = await query.ToListAsync();
 
-                CachedData.Pizzas = mapper.Map<List<PizzaViewModel>>(pizzas);
+                CachedData.Pizzas = _mapper.Map<List<PizzaViewModel>>(pizzas);
             }
 
             return Ok(CachedData.Pizzas);
@@ -52,7 +52,7 @@ namespace FoodDeliveryServer.Controllers
         {
             if (!CachedData.Images.ContainsKey(pizzaId))
             {
-                string imageFileName = await db.Pizzas
+                string imageFileName = await _dbContext.Pizzas
                                                 .Where(p => p.Id == pizzaId)
                                                 .Select(p => p.Image)
                                                 .FirstOrDefaultAsync();
@@ -60,7 +60,7 @@ namespace FoodDeliveryServer.Controllers
                 if (string.IsNullOrWhiteSpace(imageFileName))
                     return NotFound("Pizza not found");
 
-                string path = $"{hostingEnv.ContentRootPath}/Images/Pizza/{imageFileName}";
+                string path = $"{_hostingEnv.ContentRootPath}/Images/Pizza/{imageFileName}";
 
                 if (!System.IO.File.Exists(path))
                     return NotFound("Image not found");

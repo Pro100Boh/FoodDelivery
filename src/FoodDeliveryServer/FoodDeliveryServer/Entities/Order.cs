@@ -1,23 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FoodDeliveryServer.Entities
 {
-    [Table("Drinks")]
-    public class Drink : IProduct
+    [Table("Orders")]
+    public class Order
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
-        [Required, MaxLength(500)]
-        public string Name { get; set; }
-
         [Required]
-        [Column(TypeName = "money")]
-        public decimal Price { get; set; }
+        public string UserId { get; set; }
 
-        [MaxLength(200)]
-        public string Image { get; set; }
+        public User User { get; set; }
+
+        public DateTime OrderDate { get; set; }
+
+        public IEnumerable<OrderedProduct> OrderedProducts { get; set; }
     }
 }

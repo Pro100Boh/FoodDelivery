@@ -4,20 +4,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FoodDeliveryServer.Entities
 {
-    [Table("Drinks")]
-    public class Drink : IProduct
+    [Table("OrderedProducts")]
+    public class OrderedProduct
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public Guid OrderedProductId { get; set; }
+
+        public Guid OrderId { get; set; }
+
+        public Order Order { get; set; }
 
         [Required, MaxLength(500)]
-        public string Name { get; set; }
+        public string ProductName { get; set; }
 
         [Required]
         [Column(TypeName = "money")]
-        public decimal Price { get; set; }
-
-        [MaxLength(200)]
-        public string Image { get; set; }
+        public decimal ProductPrice { get; set; }
     }
 }
