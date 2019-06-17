@@ -18,8 +18,6 @@ namespace FoodDeliveryServer
 {
     public class Startup
     {
-        private const string SecretKey = "vc5PCwkcVUnBuamp60mePcVYjwi4odN5";
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -72,7 +70,7 @@ namespace FoodDeliveryServer
 
             services.AddAutoMapper();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
