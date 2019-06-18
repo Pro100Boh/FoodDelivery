@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FoodDeliveryMobileApp.Views.OrdersHistoryPage" Appearing="OrdersHistoryPageAppearing">
+
+    <ListView ItemsSource="{Binding OrdersHistoryCollection}" 
+              CachingStrategy="RetainElement" BackgroundColor="White"
+              SeparatorVisibility="None" Visual="Material" HasUnevenRows="True">
+
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell >
+                    <Frame BorderColor="Gray" CornerRadius="10" Margin="5" Padding="0" Visual="Material" VerticalOptions="StartAndExpand">
+
+                        <Label Text="{Binding ViewString}" FontSize="Medium" Margin="10"
+                                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center" TextColor="Black"/>
+                    </Frame>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+
+    </ListView>
+</ContentPage>

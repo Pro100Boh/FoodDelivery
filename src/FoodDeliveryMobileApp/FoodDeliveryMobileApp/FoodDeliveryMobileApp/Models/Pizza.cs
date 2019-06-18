@@ -5,22 +5,12 @@ using System.Text;
 
 namespace FoodDeliveryMobileApp.Models
 {
-    public class Pizza
+    public class Pizza : ProductBase
     {
-        public Guid Id { get; set; }
-
-        public string Name { get; set; }
-
-        private decimal price;
-
-        public decimal Price
-        {
-            get => price;
-            set => price = Math.Round(value, 2);
-        }
-
         public Uri PizzaImageUri { get; set; }
 
         public ObservableCollection<Ingradient> Ingradients { get; set; }
+
+        public override string FullName => $"Pizza {Name}";
     }
 }

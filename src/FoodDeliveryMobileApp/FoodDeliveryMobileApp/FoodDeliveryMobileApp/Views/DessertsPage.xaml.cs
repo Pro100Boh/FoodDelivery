@@ -16,7 +16,6 @@ namespace FoodDeliveryMobileApp.Views
 
         public DessertsPage()
         {
-
             InitializeComponent();
 
             _dessertsViewModel = new DessertsViewModel(new DessertsService());

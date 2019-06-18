@@ -20,7 +20,7 @@ namespace FoodDeliveryMobileApp.Views.MDP
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var item = e.SelectedItem as MasterDetailPage1MenuItem;
+            var item = e.SelectedItem as MenuItemBase;
             if (item == null)
                 return;
 

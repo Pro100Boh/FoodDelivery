@@ -1,4 +1,5 @@
 ﻿using FoodDeliveryMobileApp.Views;
+using FoodDeliveryMobileApp.Views.MDP;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -12,7 +13,8 @@ namespace FoodDeliveryMobileApp
             Properties["serverApiAdress"] = serverApiAdress;
 
             InitializeComponent();
-            MainPage = new TabbedProductsPage();
+            MainPage = new MasterDetailPage1();
+                //new TabbedProductsPage();
             //new NavigationPage(new PizzaPage());
         }
 

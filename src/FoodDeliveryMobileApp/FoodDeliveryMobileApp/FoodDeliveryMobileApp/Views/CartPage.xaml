@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FoodDeliveryMobileApp.Views.CartPage" Appearing="CartPageAppearing">
+
+    <StackLayout>
+
+        <ListView ItemsSource="{Binding Cart}" 
+              CachingStrategy="RetainElement" BackgroundColor="White"
+              SeparatorVisibility="None" Visual="Material" HasUnevenRows="True">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell >
+                        <Frame BorderColor="Gray" CornerRadius="20" Margin="5" Padding="0" Visual="Material" VerticalOptions="StartAndExpand">
+                            <StackLayout VerticalOptions="Start" HorizontalOptions="Fill" Orientation="Horizontal"  FlowDirection="LeftToRight">
+
+                                <Label Text="{Binding FullName}" FontSize="Medium" Margin="13,5,3,5"
+                                   VerticalTextAlignment="Center" HorizontalOptions="Start" TextColor="Black"/>
+
+                                <Label Text="{Binding Price, StringFormat=' {0} $'}" FontSize="Medium" Margin="3" 
+                                   VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"  TextColor="Black"/>
+
+                                <Button BackgroundColor="#D41A1D" TextColor="White" Text="Remove" HeightRequest="40"
+                                    VerticalOptions="CenterAndExpand" HorizontalOptions="End" FontSize="Medium" Margin="3,5,10,5" CornerRadius="16" Clicked="RemoveFromCartButtonClicked"/>
+
+                            </StackLayout>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
+        <Label Text="{Binding TotalPrice, StringFormat='TotalPrice: {0} $'}" FontSize="Large" Margin="5"
+               VerticalTextAlignment="Center" HorizontalTextAlignment="End" TextColor="Black" IsVisible="False"/>
+
+        <Button BackgroundColor="#D41A1D" TextColor="White" Text="Make order"
+                VerticalOptions="Center" FontSize="Large" Margin="5" CornerRadius="10" HorizontalOptions="EndAndExpand" Clicked="MakeOrderButtonClicked"/>
+    </StackLayout>
+</ContentPage>

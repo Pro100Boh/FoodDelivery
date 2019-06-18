@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="FoodDeliveryMobileApp.Views.ManageAccountPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="{Binding UserEmail}" FontSize="Large"
+                HorizontalOptions="CenterAndExpand" VerticalOptions="Start" 
+                   HeightRequest="50" Margin="20"/>
+
+            <Button BackgroundColor="#D41A1D" TextColor="White" Text="Sign out" FontSize="Medium" FontAttributes="Bold" 
+                    Margin="17,7,17,5" CornerRadius="10" HorizontalOptions="FillAndExpand" Clicked="LogOutClicked"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

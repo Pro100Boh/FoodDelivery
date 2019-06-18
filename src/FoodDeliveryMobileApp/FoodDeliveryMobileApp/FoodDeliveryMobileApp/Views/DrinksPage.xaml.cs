@@ -1,4 +1,5 @@
-﻿using FoodDeliveryMobileApp.Services;
+﻿using FoodDeliveryMobileApp.Models;
+using FoodDeliveryMobileApp.Services;
 using FoodDeliveryMobileApp.ViewModels;
 using System;
 
@@ -12,6 +13,8 @@ namespace FoodDeliveryMobileApp.Views
     {
         private readonly DrinksViewModel _drinksViewModel;
 
+        private readonly AccountViewModel _accountViewModel;
+
         private bool _loaded = false;
 
         public DrinksPage()
@@ -20,6 +23,7 @@ namespace FoodDeliveryMobileApp.Views
             InitializeComponent();
 
             _drinksViewModel = new DrinksViewModel(new DrinksService());
+            _accountViewModel = AccountViewModel.Instance;
 
             // Connecting context of this page to the our View Model class
             BindingContext = _drinksViewModel;
@@ -33,6 +37,19 @@ namespace FoodDeliveryMobileApp.Views
                 _loaded = true;
             }
 
+        }
+
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+
+            var drink = button?.BindingContext as Drink;
+
+            if (drink != null)
+            {
+                if (await DisplayAlert("", $"{drink.Name} will be added to your cart", "Ok", "Cancel"))
+                    _accountViewModel.AddToCart(drink);
+            }
         }
     }
 }

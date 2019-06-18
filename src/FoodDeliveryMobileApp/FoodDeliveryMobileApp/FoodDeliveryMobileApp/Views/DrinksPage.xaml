@@ -12,7 +12,7 @@
                 <ViewCell >
                     <Frame BorderColor="Gray" CornerRadius="20" Margin="5" Padding="0" Visual="Material" VerticalOptions="StartAndExpand">
                         <StackLayout VerticalOptions="StartAndExpand">
-                            <Image Visual="Material" Aspect="AspectFit" VerticalOptions="StartAndExpand" Margin="0,3,0,0" >
+                            <Image Visual="Material" Aspect="AspectFit" VerticalOptions="StartAndExpand" Margin="20,3,20,0" >
                                 <Image.Source>
                                     <UriImageSource CacheValidity="5" CachingEnabled="True" Uri="{Binding DrinkImageUri}" />
                                 </Image.Source>
@@ -33,8 +33,9 @@
                                 <Label Grid.Column="0" Text="{Binding Price, StringFormat=' {0} $'}" FontSize="Large" Margin="5"
                                    HorizontalTextAlignment="End" VerticalTextAlignment="Center" TextColor="Black"/>
 
-                                <Button Grid.Column="1" BackgroundColor="#D41A1D" TextColor="White" Text="Add to bucket"
-                                    FontSize="Medium" FontAttributes="Bold"  Margin="5" CornerRadius="10" HorizontalOptions="EndAndExpand"/>
+                                <Button Grid.Column="1" BackgroundColor="#D41A1D" TextColor="White" Text="Add to cart"
+                                    FontSize="Medium" FontAttributes="Bold"  Margin="5" CornerRadius="10" HorizontalOptions="EndAndExpand"
+                                    Clicked="Button_Clicked" />
                             </Grid>
 
                         </StackLayout>

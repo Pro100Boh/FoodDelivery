@@ -27,17 +27,17 @@ namespace FoodDeliveryMobileApp.Views.MDP
 
         class MasterDetailPage1MasterViewModel : INotifyPropertyChanged
         {
-            public ObservableCollection<MasterDetailPage1MenuItem> MenuItems { get; set; }
+            public ObservableCollection<MenuItemBase> MenuItems { get; set; }
 
             public MasterDetailPage1MasterViewModel()
             {
-                MenuItems = new ObservableCollection<MasterDetailPage1MenuItem>(new[]
+                MenuItems = new ObservableCollection<MenuItemBase>(new MenuItemBase[]
                 {
-                    new MasterDetailPage1MenuItem { Id = 0, Title = "Page 1" },
-                    new MasterDetailPage1MenuItem { Id = 1, Title = "Page 2" },
-                    new MasterDetailPage1MenuItem { Id = 2, Title = "Page 3" },
-                    new MasterDetailPage1MenuItem { Id = 3, Title = "Page 4" },
-                    new MasterDetailPage1MenuItem { Id = 4, Title = "Page 5" },
+                    new TabbedPageMenuItem { Id = 0, Title = "Products" },
+                    new CartPageMenuItem { Id = 1, Title = "Cart" },
+                    new AccountPageMenuItem { Id = 2, Title = "Account" },
+                    new OrdersHistoryPageMenuItem { Id = 3, Title = "Orders history" },
+                    new MapPageMenuItem { Id = 4, Title = "Map" }
                 });
             }
 
