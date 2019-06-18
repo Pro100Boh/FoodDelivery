@@ -31,7 +31,7 @@ namespace FoodDeliveryServer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             if (CachedData.Pizzas == null)
             {
@@ -39,7 +39,7 @@ namespace FoodDeliveryServer.Controllers
                                 .Include(g => g.PizzaIngradients)
                                 .ThenInclude(gg => gg.Ingradient);
 
-                var pizzas = await query.ToListAsync();
+                var pizzas = query.ToList();
 
                 CachedData.Pizzas = _mapper.Map<List<PizzaViewModel>>(pizzas);
             }
@@ -48,14 +48,14 @@ namespace FoodDeliveryServer.Controllers
         }
 
         [HttpGet("{pizzaId:guid}/image")]
-        public async Task<IActionResult> GetPizzaImage(Guid pizzaId)
+        public IActionResult GetPizzaImage(Guid pizzaId)
         {
             if (!CachedData.Images.ContainsKey(pizzaId))
             {
-                string imageFileName = await _dbContext.Pizzas
+                string imageFileName = _dbContext.Pizzas
                                                 .Where(p => p.Id == pizzaId)
                                                 .Select(p => p.Image)
-                                                .FirstOrDefaultAsync();
+                                                .FirstOrDefault();
 
                 if (string.IsNullOrWhiteSpace(imageFileName))
                     return NotFound("Pizza not found");
@@ -65,7 +65,7 @@ namespace FoodDeliveryServer.Controllers
                 if (!System.IO.File.Exists(path))
                     return NotFound("Image not found");
 
-                CachedData.Images[pizzaId] = System.IO.File.ReadAllBytes(path);
+                CachedData.SetImageCache(pizzaId, System.IO.File.ReadAllBytes(path));
             }
 
             return File(CachedData.Images[pizzaId], imageMimeType);

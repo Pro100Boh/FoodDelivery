@@ -37,7 +37,7 @@ namespace FoodDeliveryMobileApp.Views.MDP
                     new CartPageMenuItem { Id = 1, Title = "Cart" },
                     new AccountPageMenuItem { Id = 2, Title = "Account" },
                     new OrdersHistoryPageMenuItem { Id = 3, Title = "Orders history" },
-                    new MapPageMenuItem { Id = 4, Title = "Map" }
+                    new MapPageMenuItem { Id = 4, Title = "Our shops" }
                 });
             }
 

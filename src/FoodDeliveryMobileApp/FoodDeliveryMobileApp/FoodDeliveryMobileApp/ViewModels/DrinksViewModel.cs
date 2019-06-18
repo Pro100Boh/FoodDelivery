@@ -19,6 +19,8 @@ namespace FoodDeliveryMobileApp.ViewModels
 
         public async Task LoadDrinksAsync()
         {
+            DrinksCollection.Clear();
+
             var drinks = await _drinksService.GetDrinksAsync();
 
             foreach (var drink in drinks)

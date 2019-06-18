@@ -4,8 +4,9 @@
              x:Class="FoodDeliveryMobileApp.Views.PizzaPage" Appearing="PizzaPageAppearing">
 
     <ListView ItemsSource="{Binding PizzasCollection}" 
-              CachingStrategy="RetainElement" BackgroundColor="White" RowHeight="350"
-              SeparatorVisibility="None" Visual="Material" HasUnevenRows="True">
+              CachingStrategy="RecycleElement" BackgroundColor="White" RowHeight="350"
+              SeparatorVisibility="None" Visual="Material" HasUnevenRows="True" IsPullToRefreshEnabled="True"  
+              RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}" >
 
         <ListView.ItemTemplate>
             <DataTemplate>
@@ -14,7 +15,7 @@
                         <StackLayout >
                             <Image Visual="Material" Aspect="AspectFill" >
                                 <Image.Source>
-                                    <UriImageSource CacheValidity="5" CachingEnabled="True" Uri="{Binding PizzaImageUri}" />
+                                    <UriImageSource  CacheValidity="5" CachingEnabled="True" Uri="{Binding PizzaImageUri}" />
                                 </Image.Source>
                             </Image>
                             <Label Text="Ingradients:" FontSize="Medium" Margin="15,5,5,5" TextColor="Black"/>
@@ -61,7 +62,7 @@
                                 <Label Grid.Column="0" Text="{Binding Price, StringFormat=' {0} $'}" FontSize="Large" Margin="5"
                                    HorizontalTextAlignment="End" VerticalTextAlignment="Center" TextColor="Black"/>
 
-                                <Button Grid.Column="1" BackgroundColor="#D41A1D" TextColor="White" Text="Add to cart"
+                                <Button Grid.Column="1" BackgroundColor="#D41A1D" TextColor="White" Text="Add to cart" Clicked="Button_Clicked"
                                     FontSize="Medium" FontAttributes="Bold"  Margin="5" CornerRadius="10" HorizontalOptions="EndAndExpand"
                                     />
                             </Grid>

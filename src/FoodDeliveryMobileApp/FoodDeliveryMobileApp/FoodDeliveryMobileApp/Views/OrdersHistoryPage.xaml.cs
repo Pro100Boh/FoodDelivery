@@ -31,7 +31,12 @@ namespace FoodDeliveryMobileApp.Views
             _accountViewModel.OrdersHistoryCollection.Clear();
 
             if (!_accountViewModel.IsAuthorized)
-                await DisplayAlert("", "Please sign in to view your orders history", "Ok");
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await DisplayAlert("", "Please sign in to view your orders history", "Ok");
+                });
+            }
             else
             {
                 await _accountViewModel.LoadOrdersHistoryAsync();

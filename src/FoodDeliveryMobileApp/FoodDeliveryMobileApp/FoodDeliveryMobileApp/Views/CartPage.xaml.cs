@@ -44,7 +44,12 @@ namespace FoodDeliveryMobileApp.Views
             UpdateCartPage();
 
             if (!_accountViewModel.Cart.Any())
-                await DisplayAlert("", "You can choose any product at Products page!", "Ok");
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await DisplayAlert("", "You can choose any product at Products page!", "Ok");
+                });
+            }
         }
 
         private void RemoveFromCartButtonClicked(object sender, EventArgs e)
@@ -65,7 +70,7 @@ namespace FoodDeliveryMobileApp.Views
             else
             {
                 await _accountViewModel.MakeOrderAsync();
-                await DisplayAlert("", "Thank you for the order", "Ok");
+                await DisplayAlert("", "Thank you for the order!", "Ok");
                 UpdateCartPage();
             }
         }

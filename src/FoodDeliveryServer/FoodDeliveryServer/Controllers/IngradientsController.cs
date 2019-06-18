@@ -25,14 +25,14 @@ namespace FoodDeliveryServer.Controllers
         }
 
         [HttpGet("{ingradientId:guid}/image")]
-        public async Task<IActionResult> GetIngradientImage(Guid ingradientId)
+        public IActionResult GetIngradientImage(Guid ingradientId)
         {
             if (!CachedData.Images.ContainsKey(ingradientId))
             {
-                string imageFileName = await _dbContext.Ingradients
+                string imageFileName = _dbContext.Ingradients
                                                 .Where(i => i.Id == ingradientId)
                                                 .Select(i => i.Image)
-                                                .FirstOrDefaultAsync();
+                                                .FirstOrDefault();
 
                 if (string.IsNullOrWhiteSpace(imageFileName))
                     return NotFound("Ingradient not found");
@@ -42,7 +42,7 @@ namespace FoodDeliveryServer.Controllers
                 if (!System.IO.File.Exists(path))
                     return NotFound("Image not found");
 
-                CachedData.Images[ingradientId] = System.IO.File.ReadAllBytes(path);
+                CachedData.SetImageCache(ingradientId, System.IO.File.ReadAllBytes(path));
             }
 
             return File(CachedData.Images[ingradientId], imageMimeType);

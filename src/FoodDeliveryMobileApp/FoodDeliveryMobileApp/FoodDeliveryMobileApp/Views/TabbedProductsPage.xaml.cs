@@ -10,9 +10,11 @@ namespace FoodDeliveryMobileApp.Views
     {
         public TabbedProductsPage()
         {
-            On<Android>().SetBarSelectedItemColor(Color.FromHex("#D41A1D")); 
-            On<Android>().SetBarItemColor(Color.Gray); 
-             InitializeComponent();
+            SelectedTabColor = Color.FromHex("#D41A1D");
+            UnselectedTabColor = Color.Gray;
+            //On<Android>().SetBarSelectedItemColor(Color.FromHex("#D41A1D"));
+            //On<Android>().SetBarItemColor(Color.Gray); 
+            InitializeComponent();
         }
     }
 }

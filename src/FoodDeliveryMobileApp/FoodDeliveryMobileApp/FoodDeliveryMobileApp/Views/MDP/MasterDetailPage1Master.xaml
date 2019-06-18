@@ -3,48 +3,51 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FoodDeliveryMobileApp.Views.MDP.MasterDetailPage1Master"
              Title="Master" Visual="Material">
-  <StackLayout>
-    <ListView x:Name="MenuItemsListView"
+    <StackLayout>
+        <ListView x:Name="MenuItemsListView"
               SeparatorVisibility="Default"
               HasUnevenRows="true"
               ItemsSource="{Binding MenuItems}"
               Visual="Material">
-      <ListView.Header>
-        <Grid BackgroundColor="#D41A1D" >
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10"/>
-          </Grid.ColumnDefinitions>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
-            <RowDefinition Height="15"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="10"/>
-          </Grid.RowDefinitions>
-          <Label
+            <ListView.Header>
+                <!--<Grid BackgroundColor="#D41A1D" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
+                    </Grid.RowDefinitions>-->
+                <Frame BorderColor="Gray" CornerRadius="15" Margin="3" Padding="0" Visual="Material" VerticalOptions="StartAndExpand">
+                    <Image Source="povar.jpg" Aspect="AspectFill" />
+                </Frame>
+                        <!--<Label
               Visual="Material"
               Grid.Column="1"
               Grid.Row="2"
               Text="Food delivery app"
               FontSize="Large"
               TextColor="White"
-              Style="{DynamicResource SubtitleStyle}"/>
-        </Grid>
-      </ListView.Header>
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <ViewCell>
-            <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand" Visual="Material">
-              <Label VerticalOptions="FillAndExpand" 
+              Style="{DynamicResource SubtitleStyle}"/>-->
+                <!--</Grid>-->
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="15,10" HorizontalOptions="FillAndExpand" Visual="Material">
+                            <Label VerticalOptions="FillAndExpand" 
                     VerticalTextAlignment="Center" 
                     Text="{Binding Title}" 
                     FontSize="24"
                     Visual="Material"/>
-            </StackLayout>
-          </ViewCell>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
-  </StackLayout>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
 </ContentPage>

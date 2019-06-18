@@ -33,7 +33,7 @@ namespace FoodDeliveryServer
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<FoodDeliveryContext>(options => 
                 options.UseSqlServer(connection), 
-                ServiceLifetime.Singleton);
+                ServiceLifetime.Scoped);
 
             // ===== Add Identity ========
             services.AddIdentity<User, IdentityRole>(opts =>

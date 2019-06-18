@@ -1,4 +1,5 @@
-﻿using FoodDeliveryMobileApp.Services;
+﻿using FoodDeliveryMobileApp.Models;
+using FoodDeliveryMobileApp.Services;
 using FoodDeliveryMobileApp.ViewModels;
 using System;
 
@@ -26,10 +27,30 @@ namespace FoodDeliveryMobileApp.Views
 
         private async void DessertsPageAppearing(object sender, EventArgs e)
         {
-            if (!_loaded)
+            try
             {
-                await _dessertsViewModel.LoadDessertsAsync();
-                _loaded = true;
+                if (!_loaded)
+                {
+                    await _dessertsViewModel.LoadDessertsAsync();
+                    _loaded = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("", ex.Message, "Ok");
+            }
+        }
+
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+
+            var dessert = button?.BindingContext as Dessert;
+
+            if (dessert != null)
+            {
+                if (await DisplayAlert("", $"{dessert.Name} will be added to your cart", "Ok", "Cancel"))
+                    AccountViewModel.Instance.AddToCart(dessert);
             }
         }
     }

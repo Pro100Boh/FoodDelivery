@@ -31,11 +31,11 @@ namespace FoodDeliveryServer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             if (CachedData.Drinks == null)
             {
-                var drinks = await _dbContext.Desserts.ToListAsync();
+                var drinks = _dbContext.Desserts.ToList();
 
                 CachedData.Desserts = _mapper.Map<List<DessertViewModel>>(drinks);
             }
@@ -44,14 +44,14 @@ namespace FoodDeliveryServer.Controllers
         }
 
         [HttpGet("{dessertId:guid}/image")]
-        public async Task<IActionResult> GetDessertImage(Guid dessertId)
+        public IActionResult GetDessertImage(Guid dessertId)
         {
             if (!CachedData.Images.ContainsKey(dessertId))
             {
-                string imageFileName = await _dbContext.Desserts
+                string imageFileName = _dbContext.Desserts
                                                 .Where(d => d.Id == dessertId)
                                                 .Select(d => d.Image)
-                                                .FirstOrDefaultAsync();
+                                                .FirstOrDefault();
 
                 if (string.IsNullOrWhiteSpace(imageFileName))
                     return NotFound("Dessert not found");
@@ -61,7 +61,7 @@ namespace FoodDeliveryServer.Controllers
                 if (!System.IO.File.Exists(path))
                     return NotFound("Image not found");
 
-                CachedData.Images[dessertId] = System.IO.File.ReadAllBytes(path);
+                CachedData.SetImageCache(dessertId, System.IO.File.ReadAllBytes(path));
             }
 
             return File(CachedData.Images[dessertId], imageMimeType);

@@ -27,15 +27,6 @@ namespace FoodDeliveryMobileApp.ViewModels
 
         private static AccountViewModel source = null;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public static AccountViewModel Instance
         {
             get
@@ -46,6 +37,16 @@ namespace FoodDeliveryMobileApp.ViewModels
                 return source;
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
 
         public async Task RegiserAsync(string email, string password)
         {

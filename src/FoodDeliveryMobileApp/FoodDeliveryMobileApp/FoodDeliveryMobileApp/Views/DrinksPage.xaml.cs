@@ -13,8 +13,6 @@ namespace FoodDeliveryMobileApp.Views
     {
         private readonly DrinksViewModel _drinksViewModel;
 
-        private readonly AccountViewModel _accountViewModel;
-
         private bool _loaded = false;
 
         public DrinksPage()
@@ -23,7 +21,6 @@ namespace FoodDeliveryMobileApp.Views
             InitializeComponent();
 
             _drinksViewModel = new DrinksViewModel(new DrinksService());
-            _accountViewModel = AccountViewModel.Instance;
 
             // Connecting context of this page to the our View Model class
             BindingContext = _drinksViewModel;
@@ -31,10 +28,17 @@ namespace FoodDeliveryMobileApp.Views
 
         private async void DrinksPageAppearing(object sender, EventArgs e)
         {
-            if (!_loaded)
+            try
             {
-                await _drinksViewModel.LoadDrinksAsync();
-                _loaded = true;
+                if (!_loaded)
+                {
+                    await _drinksViewModel.LoadDrinksAsync();
+                    _loaded = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("", ex.Message, "Ok");
             }
 
         }
@@ -48,7 +52,7 @@ namespace FoodDeliveryMobileApp.Views
             if (drink != null)
             {
                 if (await DisplayAlert("", $"{drink.Name} will be added to your cart", "Ok", "Cancel"))
-                    _accountViewModel.AddToCart(drink);
+                    AccountViewModel.Instance.AddToCart(drink);
             }
         }
     }

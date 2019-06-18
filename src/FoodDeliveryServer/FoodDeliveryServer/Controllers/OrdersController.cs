@@ -46,6 +46,7 @@ namespace FoodDeliveryServer.Controllers
             var orders = await _dbContext.Orders.AsNoTracking()
                 .Include(o => o.OrderedProducts)
                 .Where(o => o.UserId == currentUserId)
+                .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
 
             var ordersView = _mapper.Map<IEnumerable<Order>, IEnumerable<OrderViewModel>>(orders);
